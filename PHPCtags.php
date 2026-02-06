@@ -139,7 +139,7 @@ class PHPCtags
 
         if ($className[0] != "\\") {
             //系统本身类型
-            if (in_array($className, ["string", "mixed", "int", "float", "double"])) {
+            if (in_array($className, ["string", "mixed", "int", "float", "double", "array"])) {
                 return $className;
             }
 
@@ -460,8 +460,10 @@ class PHPCtags
                 if (method_exists($node->type, '__toString')) {
                     $return_type="". $node->type;
                 }
-                if ($node->type->name) {
-                    $return_type="". $node->type->name;
+                // print_r($node->type->type->name);
+                // exit;
+                if ($node->type->type && $node->type->type->name ) {
+                    $return_type="". $node->type->type->name;
                 }
 
                 if ($node->type instanceof \PHPParser\Node\Name\FullyQualified) {
@@ -494,13 +496,12 @@ class PHPCtags
             }
             $args="class";
         } elseif ($node instanceof \PHPParser\Node\Stmt\EnumCase) {
-            $kind = 'p';
+            $kind = 'd';
             $name = $node->name->name;
             $line = $node->getLine();
             $access = "public";
-            $static = 1;
-            $return_type= $this-> getRealClassName('static', $scope);
-            $args="enum";
+            $return_type= "void" ;
+            $args="class";
         } elseif ($node instanceof \PHPParser\Node\Stmt\ClassMethod) {
             $kind = 'm';
             $name = $node->name->name;
