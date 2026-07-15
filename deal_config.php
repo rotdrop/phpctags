@@ -314,6 +314,9 @@ function deal_file_tags($cache_flag, $cache_file_name, $test_flag, $rebuild_all_
             deal_tags($file_index, $result, $class_inherit_map, $class_map, $function_list, $construct_map, $class_define_map);
         }
     }
+    if ($result !== false && $src_file && $need_deal_flag) {
+      printf("%02d%% %s\n", 100, $src_file);
+    }
 
     construct_map_to_function_list($class_map, $construct_map, $class_inherit_map, $function_list, $class_define_map);
 
